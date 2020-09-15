@@ -17,21 +17,19 @@ class App extends React.Component{
   constructor(){
     super();
     this.state = {
-      pokemons:[1,2,3]
+      pokemons:[8,22,6,34,455,635],
+      loading:true
     }
   }
 
   componentDidMount(){
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=10").then(r=>{
-      return r.json();
-    }).then(r=>{
-      console.log(r);
-      this.setState({
-        pokemons:r.results
-      });
-      console.log(this.state.pokemons);
-    }).catch(e=>{
-      console.log(e);
+    var y = []
+    for(var i=0;i<9;i++){
+          y.push(Math.ceil(Math.random()*850));
+    }
+    this.setState({
+       loading:false,
+       pokemons:y
     })
 
   }
@@ -42,11 +40,16 @@ class App extends React.Component{
     return (
       <div >
         <NavigationBar />
-        <Grid container spacing={2} className={classes.root} justify="center">
+        <Grid container spacing={2} className={classes.root} justify="center"
+        style={{
+          margin: 0,
+          width: '100%',
+        }}
+        >
           {
-            this.state.pokemons.map((v,i)=>{
-              return <Pokemon key={i} {...this.state.pokemons[i]} />
-            })
+            this.state.loading ? "Loading":(this.state.pokemons.map((v,i)=>{
+              return <Pokemon key={i} ids={this.state.pokemons[i]}/>
+            }))
           }
         </Grid>
       </div>
